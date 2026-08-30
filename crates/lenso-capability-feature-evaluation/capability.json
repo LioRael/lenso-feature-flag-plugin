@@ -1,0 +1,10 @@
+{
+  "id": "lenso.feature-evaluation@1",
+  "version": "1.0.0",
+  "portable": true,
+  "cross_lane_transfer": true,
+  "operations": [
+    { "name": "evaluate", "interaction": "request", "request_schema": "schemas/evaluate-request.schema.json", "response_schema": "schemas/evaluation-result.schema.json", "domain_error_schema": "schemas/evaluation-error.schema.json" },
+    { "name": "evaluate_batch", "interaction": "request", "request_schema": "schemas/evaluate-batch-request.schema.json", "response_schema": "schemas/evaluate-batch-response.schema.json", "domain_error_schema": "schemas/evaluation-error.schema.json" }
+  ]
+}
