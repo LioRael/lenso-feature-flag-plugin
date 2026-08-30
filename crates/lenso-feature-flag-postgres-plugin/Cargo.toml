@@ -1,0 +1,45 @@
+[package]
+name = "lenso-feature-flag-postgres-plugin"
+version = "0.1.0"
+description = "PostgreSQL-backed typed Feature Flag Plugin for Lenso."
+edition.workspace = true
+license.workspace = true
+publish = true
+repository.workspace = true
+rust-version.workspace = true
+
+[package.metadata.lenso]
+plugin-id = "lenso.feature-flag.postgres"
+root-slot = "feature-flags"
+
+[features]
+default = []
+postgres-acceptance = []
+
+[dependencies]
+futures.workspace = true
+lenso.workspace = true
+lenso-auth-sdk.workspace = true
+lenso-capability-access-control.workspace = true
+lenso-capability-feature-evaluation = { version = "0.1.0", path = "../lenso-capability-feature-evaluation" }
+lenso-capability-feature-flag-admin = { version = "0.1.0", path = "../lenso-capability-feature-flag-admin" }
+lenso-capability-organization-membership.workspace = true
+lenso-capability-secrets.workspace = true
+lenso-kernel.workspace = true
+lenso-postgres-kit.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+sqlx.workspace = true
+thiserror.workspace = true
+time.workspace = true
+uuid.workspace = true
+zeroize.workspace = true
+
+[dev-dependencies]
+lenso-app-plan.workspace = true
+lenso-native-adapter.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

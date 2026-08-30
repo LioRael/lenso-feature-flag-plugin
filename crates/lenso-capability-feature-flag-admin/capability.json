@@ -1,0 +1,16 @@
+{
+  "id": "lenso.feature-flag-admin@1",
+  "version": "1.0.0",
+  "portable": true,
+  "cross_lane_transfer": true,
+  "operations": [
+    { "name": "create_flag", "interaction": "request", "request_schema": "schemas/create-flag-request.schema.json", "response_schema": "schemas/flag-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "get_flag", "interaction": "request", "request_schema": "schemas/get-flag-request.schema.json", "response_schema": "schemas/flag-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "list_flags", "interaction": "request", "request_schema": "schemas/list-flags-request.schema.json", "response_schema": "schemas/list-flags-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "update_flag", "interaction": "request", "request_schema": "schemas/update-flag-request.schema.json", "response_schema": "schemas/flag-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "archive_flag", "interaction": "request", "request_schema": "schemas/archive-flag-request.schema.json", "response_schema": "schemas/flag-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "put_environment", "interaction": "request", "request_schema": "schemas/put-environment-request.schema.json", "response_schema": "schemas/environment-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "publish_ruleset", "interaction": "request", "request_schema": "schemas/publish-ruleset-request.schema.json", "response_schema": "schemas/ruleset-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" },
+    { "name": "list_evaluation_receipts", "interaction": "request", "request_schema": "schemas/list-evaluation-receipts-request.schema.json", "response_schema": "schemas/list-evaluation-receipts-response.schema.json", "domain_error_schema": "schemas/admin-error.schema.json" }
+  ]
+}
