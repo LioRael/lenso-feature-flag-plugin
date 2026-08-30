@@ -54,10 +54,10 @@ not flag values or caller attributes.
 ## Verification
 
 ```sh
-/Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo fmt --all -- --check
-/Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo check --locked --workspace --all-targets --all-features
-/Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo test --locked --workspace --all-features
-/Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo fmt --all -- --check
+cargo check --locked --workspace --all-targets --all-features
+cargo test --locked --workspace --all-features
+cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 ./scripts/check-repository-boundary.sh
 LENSO_PACKAGE_ALLOW_DIRTY=1 ./scripts/check-public-packages.sh
 ```

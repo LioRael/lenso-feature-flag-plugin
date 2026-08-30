@@ -3,8 +3,6 @@ set -euo pipefail
 
 if [[ -n "${LENSO_CARGO_BIN:-}" ]]; then
   cargo_bin="$LENSO_CARGO_BIN"
-elif [[ -x /Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo ]]; then
-  cargo_bin=/Users/leosouthey/Projects/framework/.lenso-tools/bin/lenso-cargo
 else
   cargo_bin=cargo
 fi
