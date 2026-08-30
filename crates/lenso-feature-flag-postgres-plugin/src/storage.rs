@@ -59,7 +59,6 @@ pub(crate) struct FlagRecord {
     pub created_at: String,
     pub updated_at: String,
     pub archived_at: Option<String>,
-    #[serde(skip, default)]
     pub row_seq: i64,
 }
 
