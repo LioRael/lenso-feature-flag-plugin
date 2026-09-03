@@ -23,6 +23,13 @@ assertions, active Organization membership, and Access Control. The target
 remains final authority over type invariants, revisions, archival, and
 idempotency.
 
+The separate `lenso.feature-flag.admin.agent-tools` adapter provides
+`lenso.agent.tool-provider@2` and requires only
+`lenso.feature-flag-admin@1`. It is stateless and removable: deleting it
+removes the Agent catalog without removing Feature Flag facts or application
+evaluation. The application-facing evaluation role is deliberately not
+projected into this management adapter.
+
 ## Evaluation and privacy semantics
 
 Target rules are ordered, rollouts use stable basis-point buckets, and a

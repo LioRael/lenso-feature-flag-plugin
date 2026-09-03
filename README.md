@@ -14,6 +14,12 @@ The linked native Rust Plugin provides:
 - `lenso.feature-flag-admin@1`: create/get/list/update/archive flags, put
   environments, publish rulesets, and list evaluation receipts.
 
+The private linked `lenso.feature-flag.admin.agent-tools` adapter exposes all
+eight Admin operations to an Agent through `lenso.agent.tool-provider@2`. It
+requires exactly one Admin provider and owns no flag, environment, ruleset, or
+receipt fact. The evaluation Capability remains an application data plane and
+is not included in the Console Agent catalog.
+
 It requires exactly one Provider for each of `lenso.secrets@1`,
 `lenso.organization-membership@1`, and `lenso.access-control@1`.
 
@@ -58,6 +64,7 @@ cargo fmt --all -- --check
 cargo check --locked --workspace --all-targets --all-features
 cargo test --locked --workspace --all-features
 cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+lenso-contract-codegen workspace check --manifest-path Cargo.toml
 ./scripts/check-repository-boundary.sh
 LENSO_PACKAGE_ALLOW_DIRTY=1 ./scripts/check-public-packages.sh
 ```
