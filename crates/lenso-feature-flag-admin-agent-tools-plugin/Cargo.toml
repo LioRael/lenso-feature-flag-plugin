@@ -1,0 +1,24 @@
+[package]
+name = "lenso-feature-flag-admin-agent-tools-plugin"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+repository.workspace = true
+description = "Agent Tool adapter for Lenso Feature Flag administration."
+
+[package.metadata.lenso]
+plugin-id = "lenso.feature-flag.admin.agent-tools"
+root-slot = "tool-providers"
+
+[dependencies]
+futures.workspace = true
+lenso.workspace = true
+lenso-capability-agent-tool-provider.workspace = true
+lenso-capability-feature-flag-admin = { path = "../lenso-capability-feature-flag-admin", version = "0.1.0" }
+lenso-kernel.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

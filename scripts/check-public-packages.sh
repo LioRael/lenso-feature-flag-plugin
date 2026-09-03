@@ -9,9 +9,16 @@ fi
 flags=(--locked)
 if [[ "${LENSO_PACKAGE_ALLOW_DIRTY:-0}" == "1" ]]; then flags+=(--allow-dirty); fi
 
-for manifest in crates/*/Cargo.toml; do
+for manifest in \
+  crates/lenso-capability-feature-evaluation/Cargo.toml \
+  crates/lenso-capability-feature-flag-admin/Cargo.toml \
+  crates/lenso-feature-flag-postgres-plugin/Cargo.toml; do
   rg -qx 'publish = true' "$manifest" || { echo "$manifest is not explicitly publishable" >&2; exit 1; }
 done
+rg -qx 'publish = false' crates/lenso-feature-flag-admin-agent-tools-plugin/Cargo.toml || {
+  echo 'Feature Flag Admin Agent Tools must remain private' >&2
+  exit 1
+}
 
 for package in lenso-capability-feature-evaluation lenso-capability-feature-flag-admin; do
   "$cargo_bin" package "${flags[@]}" -p "$package"
