@@ -15,7 +15,7 @@ root-slot = "tool-providers"
 futures.workspace = true
 lenso.workspace = true
 lenso-capability-agent-tool-provider.workspace = true
-lenso-capability-feature-flag-admin = { path = "../lenso-capability-feature-flag-admin", version = "0.1.0" }
+lenso-capability-feature-flag-admin = { path = "../lenso-capability-feature-flag-admin", version = "0.1.1" }
 lenso-kernel.workspace = true
 serde.workspace = true
 serde_json.workspace = true
