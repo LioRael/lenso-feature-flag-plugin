@@ -40,6 +40,8 @@ Plugin never writes context values to logs or receipts.
 
 ## Lifecycle and removal
 
-Operator setup/upgrade owns migrations. Activation verifies the ledger and
-opens a fresh generation-local pool; deactivation closes it. There are no
-background tasks, Kernel mutations, or ambient Provider registries.
+Operator setup/upgrade owns migrations. PostgreSQL activation verifies the
+ledger and opens a fresh generation-local pool; D1 activation verifies its
+event-owned migration ledger and receives one exact binding per event.
+Deactivation closes the generation. There are no background tasks, Kernel
+mutations, or ambient Provider registries.

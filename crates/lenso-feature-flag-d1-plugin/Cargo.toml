@@ -1,0 +1,42 @@
+[package]
+name = "lenso-feature-flag-d1-plugin"
+version = "0.1.0"
+description = "D1-backed Feature Flag Plugin for Lenso Workers applications."
+edition.workspace = true
+license.workspace = true
+publish = true
+repository.workspace = true
+rust-version.workspace = true
+[package.metadata.lenso]
+plugin-id = "lenso.feature-flag.d1"
+root-slot = "feature-flags"
+[dependencies]
+lenso-feature-flag-core = { version = "0.1.0", path = "../lenso-feature-flag-core" }
+lenso-native-adapter.workspace = true
+futures.workspace = true
+lenso-migration = "=0.1.0"
+lenso-migration-d1 = "=0.1.0"
+uuid = { workspace = true, features = ["js"] }
+
+lenso.workspace = true
+lenso-auth-sdk.workspace = true
+lenso-capability-access-control.workspace = true
+lenso-capability-organization-membership.workspace = true
+lenso-kernel.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+time.workspace = true
+lenso-capability-feature-evaluation = { version = "0.1.0", path = "../lenso-capability-feature-evaluation" }
+lenso-capability-feature-flag-admin = { version = "0.1.0", path = "../lenso-capability-feature-flag-admin" }
+[lints]
+workspace = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "=0.3.104"
+wasm-bindgen = "=0.2.127"
+wasm-bindgen-futures = "=0.4.77"
+[dev-dependencies]
+rusqlite = { version = "0.38", features = ["bundled"] }
+lenso-app-plan.workspace = true

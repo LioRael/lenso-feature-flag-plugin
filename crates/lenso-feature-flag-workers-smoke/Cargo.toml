@@ -1,0 +1,33 @@
+[package]
+name = "lenso-feature-flag-workers-smoke"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+repository.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+lenso-feature-flag-d1-plugin = { path = "../lenso-feature-flag-d1-plugin" }
+lenso-capability-access-control.workspace = true
+lenso-capability-feature-evaluation = { path = "../lenso-capability-feature-evaluation" }
+lenso-capability-feature-flag-admin = { path = "../lenso-capability-feature-flag-admin" }
+lenso-capability-organization-membership.workspace = true
+lenso-app-plan.workspace = true
+lenso-auth-sdk.workspace = true
+lenso-capability-auth.workspace = true
+lenso-kernel.workspace = true
+lenso-native-adapter.workspace = true
+lenso-workers-driver = "0.1.0"
+lenso.workspace = true
+js-sys = "=0.3.104"
+serde_json.workspace = true
+time.workspace = true
+wasm-bindgen = "=0.2.127"
+wasm-bindgen-futures = "=0.4.77"
+
+[lints]
+workspace = true

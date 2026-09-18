@@ -1,7 +1,7 @@
 # Lenso Feature Flag Plugin
 
-A removable, PostgreSQL-backed Feature Flag backend for Lenso Apps. It owns
-typed flags, environments, immutable published rulesets, deterministic
+A removable, PostgreSQL- and D1-backed Feature Flag backend for Lenso Apps. It
+owns typed flags, environments, immutable published rulesets, deterministic
 evaluation, and durable evaluation receipts. It does not mutate the Kernel,
 discover Providers through an ambient registry, or own Organizations,
 identities, membership, or Access Control policy.
@@ -55,7 +55,8 @@ not flag values or caller attributes.
 - Batch evaluation is admitted and committed atomically.
 - `FeatureFlagOperator::setup/upgrade` owns DDL. Runtime activation resolves the
   database URL and verifies the exact migration ledger.
-- PostgreSQL is the sole durable state; there is no memory fallback.
+- PostgreSQL and event-owned D1 are the durable stores; there is no memory
+  fallback.
 
 ## Verification
 
@@ -67,6 +68,10 @@ cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 lenso-contract-codegen workspace check --manifest-path Cargo.toml
 ./scripts/check-repository-boundary.sh
 LENSO_PACKAGE_ALLOW_DIRTY=1 ./scripts/check-public-packages.sh
+# Workers D1 qualification (from crates/lenso-feature-flag-workers-smoke/workers)
+pnpm install --frozen-lockfile --store-dir /private/tmp/lenso-feature-pnpm-store
+LENSO_CARGO=/path/to/lenso-cargo ./build.sh
+pnpm test
 ```
 
 Set `LENSO_FEATURE_FLAG_TEST_DATABASE_URL` to a dedicated PostgreSQL database
@@ -77,4 +82,5 @@ restart/idempotency/CAS/ruleset/evaluation/receipt acceptance slice.
 
 There is no remote SDK transport, streaming update channel, multi-variate
 experiment statistics, scheduled ruleset activation, or provider-specific
-registry. Evaluation is local to the linked Plugin and one PostgreSQL store.
+registry. Evaluation is local to the linked Plugin and its selected durable
+store.

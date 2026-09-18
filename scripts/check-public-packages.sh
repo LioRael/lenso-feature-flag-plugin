@@ -12,6 +12,8 @@ if [[ "${LENSO_PACKAGE_ALLOW_DIRTY:-0}" == "1" ]]; then flags+=(--allow-dirty); 
 for manifest in \
   crates/lenso-capability-feature-evaluation/Cargo.toml \
   crates/lenso-capability-feature-flag-admin/Cargo.toml \
+  crates/lenso-feature-flag-core/Cargo.toml \
+  crates/lenso-feature-flag-d1-plugin/Cargo.toml \
   crates/lenso-feature-flag-postgres-plugin/Cargo.toml; do
   rg -qx 'publish = true' "$manifest" || { echo "$manifest is not explicitly publishable" >&2; exit 1; }
 done
@@ -23,12 +25,23 @@ rg -qx 'publish = false' crates/lenso-feature-flag-admin-agent-tools-plugin/Carg
 for package in lenso-capability-feature-evaluation lenso-capability-feature-flag-admin; do
   "$cargo_bin" package "${flags[@]}" -p "$package"
 done
+for package in lenso-feature-flag-core lenso-feature-flag-d1-plugin; do
+  if [[ "$package" == lenso-feature-flag-d1-plugin ]]; then
+    "$cargo_bin" package "${flags[@]}" --no-verify -p "$package" \
+      --config 'patch.crates-io.lenso-feature-flag-core.path="crates/lenso-feature-flag-core"' \
+      --config 'patch.crates-io.lenso-capability-feature-evaluation.path="crates/lenso-capability-feature-evaluation"' \
+      --config 'patch.crates-io.lenso-capability-feature-flag-admin.path="crates/lenso-capability-feature-flag-admin"'
+  else
+    "$cargo_bin" package "${flags[@]}" --no-verify -p "$package"
+  fi
+done
 "$cargo_bin" package "${flags[@]}" --no-verify -p lenso-feature-flag-postgres-plugin \
+  --config 'patch.crates-io.lenso-feature-flag-core.path="crates/lenso-feature-flag-core"' \
   --config 'patch.crates-io.lenso-capability-feature-evaluation.path="crates/lenso-capability-feature-evaluation"' \
   --config 'patch.crates-io.lenso-capability-feature-flag-admin.path="crates/lenso-capability-feature-flag-admin"'
 
 target="$($cargo_bin metadata --no-deps --format-version=1 | python3 -c 'import json,sys; print(json.load(sys.stdin)["target_directory"])')"
-for package in lenso-capability-feature-evaluation lenso-capability-feature-flag-admin lenso-feature-flag-postgres-plugin; do
+for package in lenso-capability-feature-evaluation lenso-capability-feature-flag-admin lenso-feature-flag-core lenso-feature-flag-d1-plugin lenso-feature-flag-postgres-plugin; do
   version="$($cargo_bin metadata --no-deps --format-version=1 | python3 -c 'import json,sys; name=sys.argv[1]; print(next(p["version"] for p in json.load(sys.stdin)["packages"] if p["name"] == name))' "$package")"
   test -s "$target/package/$package-$version.crate"
 done

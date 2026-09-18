@@ -3,13 +3,16 @@ use std::{fmt, rc::Rc};
 use futures::future::LocalBoxFuture;
 use lenso_kernel::{InvocationContext, NativeRequestEndpoint, NativeRequestFuture, NativeRequestHandle, PluginDependencies, RequestCapability, RuntimeFailure};
 
-use lenso_plugin_authoring::{BoundCapabilityClient, CapabilityClient, CapabilityClientMany};
+use lenso_plugin_authoring::{BoundCapabilityClient, CapabilityClient, CapabilityClientMany, CapabilityReference};
 pub const CAPABILITY_ID: &str = "lenso.feature-flag-admin@1";
 pub const DESCRIPTOR_VERSION: &str = "1.0.0";
+pub const DESCRIPTOR_DIGEST: &str = "sha256:393960520d90421a36aba3a3a4ca6f274156d2d911f889b4d329527acf858043";
 pub const PORTABLE: bool = true;
 pub const CROSS_LANE_TRANSFER: bool = true;
 pub const FEATURE_FLAG_ADMIN_CAPABILITY_ID: &str = CAPABILITY_ID;
 pub const FEATURE_FLAG_ADMIN_DESCRIPTOR_VERSION: &str = DESCRIPTOR_VERSION;
+pub const FEATURE_FLAG_ADMIN_DESCRIPTOR_DIGEST: &str = DESCRIPTOR_DIGEST;
+pub const FEATURE_FLAG_ADMIN_CONTRACT: CapabilityReference<FeatureFlagAdminClient> = CapabilityReference::new(CAPABILITY_ID, DESCRIPTOR_VERSION, DESCRIPTOR_DIGEST);
 
 #[doc(hidden)]
 #[macro_export]
@@ -17,11 +20,23 @@ macro_rules! __lenso_provided_feature_flag_admin { () => { "{\"capability_id\":\
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! __lenso_required_feature_flag_admin_client { () => { "{\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"one\"}" }; }
+macro_rules! __lenso_required_feature_flag_admin_client {
+    () => { "{\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"one\"}" };
+    ($requirement_id:literal) => { concat!("{\"requirement_id\":", stringify!($requirement_id), ",\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"one\"}") };
+}
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! __lenso_required_many_feature_flag_admin_client { () => { "{\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"many\"}" }; }
+macro_rules! __lenso_required_optional_feature_flag_admin_client {
+    ($requirement_id:literal) => { concat!("{\"requirement_id\":", stringify!($requirement_id), ",\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"optional\"}") };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __lenso_required_many_feature_flag_admin_client {
+    () => { "{\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"many\"}" };
+    ($requirement_id:literal) => { concat!("{\"requirement_id\":", stringify!($requirement_id), ",\"capability_id\":\"lenso.feature-flag-admin@1\",\"descriptor_version\":\"1.0.0\",\"cardinality\":\"many\"}") };
+}
 
 pub const ARCHIVE_FLAG_OPERATION: &str = "archive_flag";
 pub const CREATE_FLAG_OPERATION: &str = "create_flag";
@@ -1774,6 +1789,146 @@ macro_rules! __lenso_native_lower_feature_flag_admin {
     };
 }
 
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __lenso_native_lower_object_feature_flag_admin {
+    ($object:ty, $plugin:ty, $support:path) => {
+        use $support as __LensoNativeSupportFeatureFlagAdmin;
+        impl $crate::FeatureFlagAdminProvider for $object {
+        fn archive_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ArchiveFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminArchiveFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::archive_flag(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminArchiveFlagResult::__lenso_into_result(result)
+            })
+        }
+        fn create_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::CreateFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminCreateFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::create_flag(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminCreateFlagResult::__lenso_into_result(result)
+            })
+        }
+        fn get_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::GetFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminGetFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::get_flag(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminGetFlagResult::__lenso_into_result(result)
+            })
+        }
+        fn list_evaluation_receipts(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ListEvaluationReceiptsRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminListEvaluationReceipts> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::list_evaluation_receipts(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminListEvaluationReceiptsResult::__lenso_into_result(result)
+            })
+        }
+        fn list_flags(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ListFlagsRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminListFlags> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::list_flags(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminListFlagsResult::__lenso_into_result(result)
+            })
+        }
+        fn publish_ruleset(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::PublishRulesetRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminPublishRuleset> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::publish_ruleset(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminPublishRulesetResult::__lenso_into_result(result)
+            })
+        }
+        fn put_environment(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::PutEnvironmentRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminPutEnvironment> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::put_environment(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminPutEnvironmentResult::__lenso_into_result(result)
+            })
+        }
+        fn update_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::UpdateFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminUpdateFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                let result = <$plugin>::update_flag(plugin.as_ref(), context, request).await;
+                $crate::__LensoIntoFeatureFlagAdminUpdateFlagResult::__lenso_into_result(result)
+            })
+        }
+        }
+    };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __lenso_native_lower_trait_object_feature_flag_admin {
+    ($object:ty, $plugin:ty, $support:path) => {
+        use $support as __LensoNativeSupportFeatureFlagAdmin;
+        impl $crate::FeatureFlagAdminProvider for $object {
+        fn archive_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ArchiveFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminArchiveFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::archive_flag(plugin.as_ref(), context, request).await
+            })
+        }
+        fn create_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::CreateFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminCreateFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::create_flag(plugin.as_ref(), context, request).await
+            })
+        }
+        fn get_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::GetFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminGetFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::get_flag(plugin.as_ref(), context, request).await
+            })
+        }
+        fn list_evaluation_receipts(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ListEvaluationReceiptsRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminListEvaluationReceipts> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::list_evaluation_receipts(plugin.as_ref(), context, request).await
+            })
+        }
+        fn list_flags(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::ListFlagsRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminListFlags> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::list_flags(plugin.as_ref(), context, request).await
+            })
+        }
+        fn publish_ruleset(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::PublishRulesetRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminPublishRuleset> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::publish_ruleset(plugin.as_ref(), context, request).await
+            })
+        }
+        fn put_environment(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::PutEnvironmentRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminPutEnvironment> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::put_environment(plugin.as_ref(), context, request).await
+            })
+        }
+        fn update_flag(&self, context: __LensoNativeSupportFeatureFlagAdmin::InvocationContext, request: $crate::UpdateFlagRequest) -> __LensoNativeSupportFeatureFlagAdmin::NativeRequestFuture<$crate::FeatureFlagAdminUpdateFlag> {
+            let object = self.clone();
+            ::std::boxed::Box::pin(async move {
+                let plugin = object.get()?;
+                <$plugin as $crate::FeatureFlagAdminProvider>::update_flag(plugin.as_ref(), context, request).await
+            })
+        }
+        }
+    };
+}
+
 #[derive(Debug)]
 struct FeatureFlagAdminRequestEndpoint { provider: Rc<dyn FeatureFlagAdminProvider> }
 
@@ -1942,7 +2097,7 @@ macro_rules! __lenso_native_provide_feature_flag_admin {
     }};
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct FeatureFlagAdminClient {
     archive_flag: NativeRequestHandle<FeatureFlagAdminArchiveFlag>,
     create_flag: NativeRequestHandle<FeatureFlagAdminCreateFlag>,
@@ -1956,6 +2111,13 @@ pub struct FeatureFlagAdminClient {
 impl FeatureFlagAdminClient {
     pub fn from_dependencies(dependencies: &PluginDependencies) -> Result<Self, RuntimeFailure> {
         <Self as CapabilityClient>::from_dependencies(dependencies)
+    }
+
+    pub fn from_requirement(
+        dependencies: &PluginDependencies,
+        requirement_id: &str,
+    ) -> Result<Self, RuntimeFailure> {
+        <Self as CapabilityClient>::from_requirement(dependencies, requirement_id)
     }
 
     pub async fn archive_flag(&self, request: ArchiveFlagRequest) -> Result<ArchiveFlagResponse, FeatureFlagAdminArchiveFlagInvocationError> {
@@ -2075,6 +2237,14 @@ impl CapabilityClient for FeatureFlagAdminClient {
         })
     }
 
+    fn from_requirement(
+        dependencies: &PluginDependencies,
+        requirement_id: &str,
+    ) -> Result<Self, RuntimeFailure> {
+        let dependencies = dependencies.requirement(requirement_id)?;
+        Self::from_dependencies(&dependencies)
+    }
+
     fn already_connected() -> RuntimeFailure {
         RuntimeFailure::PluginFailure {
             detail: format!("Capability Port {CAPABILITY_ID} was connected more than once"),
@@ -2106,6 +2276,14 @@ impl CapabilityClientMany for FeatureFlagAdminClient {
                 ))
             })
             .collect()
+    }
+
+    fn many_from_requirement(
+        dependencies: &PluginDependencies,
+        requirement_id: &str,
+    ) -> Result<Vec<BoundCapabilityClient<Self>>, RuntimeFailure> {
+        let dependencies = dependencies.requirement(requirement_id)?;
+        Self::many_from_dependencies(&dependencies)
     }
 }
 

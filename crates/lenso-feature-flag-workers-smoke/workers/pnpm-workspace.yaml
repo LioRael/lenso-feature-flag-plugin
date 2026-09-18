@@ -1,0 +1,7 @@
+packages: []
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - "@lenso/workers-runtime@0.1.2"

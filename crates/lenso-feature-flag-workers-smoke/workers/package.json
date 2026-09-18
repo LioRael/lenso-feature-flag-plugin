@@ -1,0 +1,15 @@
+{
+  "name": "lenso-feature-flag-workers-qualification",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "./build.sh",
+    "test": "node proof.mjs"
+  },
+  "dependencies": {
+    "@lenso/workers-runtime": "0.1.2"
+  },
+  "devDependencies": {
+    "wrangler": "4.107.0"
+  }
+}
