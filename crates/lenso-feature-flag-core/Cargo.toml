@@ -1,0 +1,27 @@
+[package]
+name = "lenso-feature-flag-core"
+version = "0.1.0"
+description = "Shared authorization and domain policy for Lenso Feature Flag backends."
+edition.workspace = true
+license.workspace = true
+publish = true
+repository.workspace = true
+rust-version.workspace = true
+[dependencies]
+lenso.workspace = true
+lenso-auth-sdk.workspace = true
+lenso-capability-access-control.workspace = true
+lenso-capability-organization-membership.workspace = true
+lenso-kernel.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+time.workspace = true
+lenso-capability-feature-evaluation = { version = "0.1.0", path = "../lenso-capability-feature-evaluation" }
+lenso-capability-feature-flag-admin = { version = "0.1.0", path = "../lenso-capability-feature-flag-admin" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "=0.3.104"
+[lints]
+workspace = true

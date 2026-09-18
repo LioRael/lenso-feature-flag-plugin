@@ -1,0 +1,10 @@
+CREATE TABLE feature_epoch (singleton INTEGER PRIMARY KEY CHECK(singleton=1), revision INTEGER NOT NULL CHECK(revision>0));
+INSERT INTO feature_epoch VALUES(1,1);
+CREATE TABLE feature_guard (value INTEGER NOT NULL CHECK(value=1));
+CREATE TABLE feature_flags (organization_id TEXT NOT NULL, flag_key TEXT NOT NULL, row_seq INTEGER NOT NULL UNIQUE, record TEXT NOT NULL CHECK(json_valid(record)), PRIMARY KEY(organization_id,flag_key));
+CREATE INDEX feature_flags_list ON feature_flags(organization_id,row_seq);
+CREATE TABLE feature_environments (organization_id TEXT NOT NULL, environment_key TEXT NOT NULL, record TEXT NOT NULL CHECK(json_valid(record)), PRIMARY KEY(organization_id,environment_key));
+CREATE TABLE feature_rulesets (organization_id TEXT NOT NULL, flag_key TEXT NOT NULL, environment_key TEXT NOT NULL, revision INTEGER NOT NULL CHECK(revision>0), definition TEXT NOT NULL CHECK(json_valid(definition)), publication TEXT NOT NULL CHECK(json_valid(publication)), PRIMARY KEY(organization_id,flag_key,environment_key,revision), FOREIGN KEY(organization_id,flag_key) REFERENCES feature_flags(organization_id,flag_key), FOREIGN KEY(organization_id,environment_key) REFERENCES feature_environments(organization_id,environment_key));
+CREATE TABLE feature_commands (caller TEXT NOT NULL, actor TEXT NOT NULL, operation TEXT NOT NULL, command_key TEXT NOT NULL, request_hash TEXT NOT NULL, response TEXT NOT NULL CHECK(json_valid(response)), PRIMARY KEY(caller,actor,operation,command_key));
+CREATE TABLE feature_evaluation_receipts (row_seq INTEGER PRIMARY KEY AUTOINCREMENT, receipt_id TEXT NOT NULL UNIQUE, organization_id TEXT NOT NULL, flag_key TEXT NOT NULL, environment_key TEXT NOT NULL, caller TEXT NOT NULL, actor TEXT NOT NULL, operation TEXT NOT NULL, evaluation_id TEXT NOT NULL, record TEXT NOT NULL CHECK(json_valid(record)), UNIQUE(caller,actor,operation,evaluation_id,flag_key));
+CREATE INDEX feature_receipts_list ON feature_evaluation_receipts(organization_id,row_seq);

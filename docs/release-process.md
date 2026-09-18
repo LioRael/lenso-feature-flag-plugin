@@ -1,10 +1,12 @@
 # Release process
 
-This repository publishes three crates, in order:
+This repository publishes five crates, in dependency order:
 
 1. `lenso-capability-feature-evaluation`
 2. `lenso-capability-feature-flag-admin`
-3. `lenso-feature-flag-postgres-plugin`
+3. `lenso-feature-flag-core`
+4. `lenso-feature-flag-d1-plugin`
+5. `lenso-feature-flag-postgres-plugin`
 
 Publication is manual-only from reviewed `main`. Pushes may refresh a
 Release-plz PR, but merging it does not publish. The live workflow additionally

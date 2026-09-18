@@ -17,6 +17,7 @@ default = []
 postgres-acceptance = []
 
 [dependencies]
+lenso-feature-flag-core = { version = "0.1.0", path = "../lenso-feature-flag-core" }
 futures.workspace = true
 lenso.workspace = true
 lenso-auth-sdk.workspace = true
